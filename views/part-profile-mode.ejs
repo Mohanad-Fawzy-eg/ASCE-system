@@ -1,0 +1,105 @@
+<%- include('layout/header.ejs') %> <%- include('layout/footer.ejs') %> %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+    </head>
+
+    <body>
+        <div
+            class="content align-items-center"
+            style="padding-bottom: 3%">
+            <% if (message) { %>
+            <div
+                class="alert alert-dismissable fade show alert-<%= message.type %>"
+                role="alert"
+                style="width: 25%">
+                <button
+                    class="btn-close"
+                    type="button"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+                <strong><%= message.message %></strong>
+            </div>
+            <% } %>
+            <h1>
+                <a
+                    href="/part-add"
+                    type="button"
+                    class="btn btn-primary btn-sm ml-3"
+                    >+ Add Participant</a
+                >
+            </h1>
+            <h1>
+                <a
+                    href="/part"
+                    type="button"
+                    class="btn btn-primary btn-sm ml-3"
+                    >Show table mode</a
+                >
+            </h1>
+            <% if (data != '') { %>
+        </div>
+        <% data.forEach((data , index) => { %>
+        <div style="padding-bottom: 1%">
+            <div
+                class="card"
+                style="max-width: 25%">
+                <div style="padding-top: 3%">
+                    <img
+                        src="/<%=data.image %>"
+                        alt=""
+                        class="img-thumbnail"
+                        style="width: 80%; align-self: center"
+                        width="100" />
+                </div>
+                <h3><%= data.name %></h3>
+                <p class="title"><%= data.title %></p>
+                <p><%= data.id %></p>
+                <p>
+                    warnings : <% var warnings = 0 ;
+                    data.partScore.sessions.forEach(function(session){
+                    if(isNaN(data.partScore.rate)){ data.partScore.warnings = 0
+                    ; } else{ if(data.partScore.rate < 60){ warnings = warnings
+                    + 1; data.partScore.warnings = warnings - 1 } } }) %> <%=
+                    data.partScore.warnings %>
+                </p>
+                <p>
+                    Rate : <% var rate = 0 ; var total = 0; var count = 0 %> <%
+                    data.partScore.sessions.forEach(function(session) { total =
+                    total + session.sum; count = count + 1 })%> <% rate = (total
+                    /(count * 100) )* 100 ; if(isNaN(rate)){ rate = 0 ; } else {
+                    data.partScore.rate = rate } %> <%= rate.toFixed(2) %>%
+                </p>
+                <div class="d-flex flex-column">
+                    <a
+                        href="/view-part/<%= data.id  %>"
+                        class="btn btn-primary btn-sm"
+                        >Details</a
+                    >
+                    <a
+                        href="/edit-part/<%= data.id  %>"
+                        class="btn btn-warning mt-1 btn-sm"
+                        >Edit</a
+                    >
+                    <a
+                        href="/delete-part/<%=data.id%>"
+                        class="btn btn-danger mt-1 btn-sm"
+                        >Delete</a
+                    >
+                </div>
+            </div>
+        </div>
+        <% }) %> <% } else { %>
+        <div
+            class="alert alert-dismissable fade show alert-info text-center"
+            role="alert">
+            <strong class="text-center">No participant was found</strong>
+        </div>
+        <% } %>
+    </body>
+</html>

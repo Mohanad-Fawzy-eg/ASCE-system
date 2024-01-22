@@ -1,0 +1,51 @@
+<% data.forEach((data , index) => { %>
+<div style="padding-bottom: 1%">
+    <div
+        class="card"
+        style="max-width: 25%">
+        <div style="padding-top: 3%">
+            <img
+                src="/<%=data.image %>"
+                alt=""
+                class="img-thumbnail"
+                style="width: 80%; align-self: center"
+                width="100" />
+        </div>
+        <h3><%= data.name %></h3>
+        <p class="title"><%= data.title %></p>
+        <p><%= data.id %></p>
+        <p>
+            warnings : <% var warnings = 0 ;
+            data.staffScore.sessions.forEach(function(session){
+            if(isNaN(data.staffScore.rate)){ data.staffScore.warnings = 0 ; }
+            else{ if(data.staffScore.rate < 60){ warnings = warnings + 1;
+            data.staffScore.warnings = warnings - 1 } } }) %> <%=
+            data.staffScore.warnings %>
+        </p>
+        <p>
+            Rate : <% var rate = 0 ; var total = 0; var count = 0 %> <%
+            data.staffScore.sessions.forEach(function(session) { total = total +
+            session.sum; count = count + 1 })%> <% rate = (total /(count * 100)
+            )* 100 ; if(isNaN(rate)){ rate = 0 ; } else { data.staffScore.rate =
+            rate } %> <%= rate.toFixed(2) %>%
+        </p>
+        <div class="d-flex flex-column">
+            <a
+                href="/view-staff/<%= data.id  %>"
+                class="btn btn-primary btn-sm"
+                >Details</a
+            >
+            <a
+                href="/edit-staff/<%= data.id  %>"
+                class="btn btn-warning mt-1 btn-sm"
+                >Edit</a
+            >
+            <a
+                href="/delete-board/<%=data.id%>"
+                class="btn btn-danger mt-1 btn-sm"
+                >Delete</a
+            >
+        </div>
+    </div>
+</div>
+<% }) %

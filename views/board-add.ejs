@@ -1,0 +1,92 @@
+<%- include('layout/header.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div class="content mx-5">
+            <h1>Add board</h1>
+
+            <form
+                action="/newBoard"
+                method="post"
+                id="add-form"
+                class="form-group row"
+                enctype="multipart/form-data">
+                <div class="col-sm-10 pt-5">
+                    <input
+                        type="text"
+                        class="form-control"
+                        style="width: 50%"
+                        required
+                        name="name"
+                        placeholder="Name" />
+                </div>
+                <div class="col-sm-10 pt-5">
+                    <input
+                        class="form-control"
+                        style="width: 50%"
+                        type="phone"
+                        name="phone"
+                        placeholder="Phone" />
+                </div>
+                <div class="col-sm-5 pt-5">
+                    <h6>Select rank</h6>
+                    <select
+                        name="rank"
+                        required
+                        id="">
+                        <option value="">---</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Coordinator">Coordinator</option>
+                        <option value="Head">Head</option>
+                        <option value="Vice Head">Vice Head</option>
+                        <option value="Lecturer">Lecturer</option>
+                    </select>
+                </div>
+                <div class="col-sm-10 pt-2">
+                    <h6>Select committee</h6>
+                    <select
+                        name="committee"
+                        required
+                        id="">
+                        <option value="">---</option>
+                        <option value="Mentor">Mentor</option>
+                        <option value="Human resources">Human resources</option>
+                        <option value="Media and marketing">
+                            Media and marketing
+                        </option>
+                        <option value="Public relations">
+                            Public relations
+                        </option>
+                        <option value="Organizing">Organizing</option>
+                    </select>
+                </div>
+                <div class="col-sm-10 pt-2">
+                    <h6>Upload image (optional)</h6>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        style="width: 25%"
+                        class="form-control"
+                        value="" />
+                </div>
+
+                <div class="col-sm-10 pt-2">
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        style="width: 10%">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

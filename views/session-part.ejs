@@ -1,0 +1,231 @@
+<%- include('layout/header.ejs') %>
+
+<style>
+    input {
+        width: 50%;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<div class="content">
+    <h4>Session <%= parseInt(index) + 1 %></h4>
+    <form
+        action="/part-session-edit/<%= data.id %>/<%= session._id %>/<%= index %>"
+        method="post">
+        <table
+            class="table table-striped table-hover text-center m-11 align-middle topTable"
+            style="width: 100% !important">
+            <thead>
+                <tr
+                    class="table-dark"
+                    style="width: 100% !important">
+                    <th scope="col">Date</th>
+                    <th scope="col">Attended</th>
+                    <th scope="col">Arrival time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr scope="row">
+                    <td scope="row">
+                        <input
+                            type="text"
+                            name="date"
+                            value="<%= session.date %>" />
+                    </td>
+                    <td scope="row">
+                        <select
+                            name="attendance"
+                            id="">
+                            <option value="true">Attended</option>
+                            <option value="false">Abscent</option>
+                        </select>
+                    </td>
+                    <td scope="row">
+                        <input
+                            type="text"
+                            name="arrival_time"
+                            value="<%= session.arrival_time %>" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table
+            class="table table-striped table-hover text-center m-11 align-middle"
+            style="width: 80%">
+            <thead>
+                <tr
+                    class="table-dark"
+                    style="width: 70%">
+                    <th scope="col">Commitment</th>
+                    <th scope="col">Flexability</th>
+                    <th scope="col">Attitude</th>
+                </tr>
+
+                <tr
+                    class="table-dark"
+                    style="width: 70%"></tr>
+            </thead>
+
+            <tbody>
+                <tr scope="row">
+                    <td scope="row">
+                        <input
+                            type="number"
+                            name="commitment"
+                            value="<%= session.commitment %>" />
+                    </td>
+                    <td>
+                        <input
+                            type="number"
+                            name="flex"
+                            value="<%= session.flex %>" />
+                    </td>
+                    <td>
+                        <input
+                            type="number"
+                            name="attitude"
+                            value="<%= session.attitude %>" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table
+            class="table table-striped table-hover text-center m-11 align-middle"
+            style="width: 80%">
+            <thead>
+                <tr
+                    class="table-dark"
+                    style="width: 70%">
+                    <th scope="col">Active</th>
+                    <th scope="col">Self development</th>
+                    <th scope="col">Applying</th>
+                </tr>
+
+                <tr
+                    class="table-dark"
+                    style="width: 70%"></tr>
+            </thead>
+
+            <tbody>
+                <tr scope="row">
+                    <td>
+                        <input
+                            type="number"
+                            name="active"
+                            value="<%= session.active %>" />
+                    </td>
+                    <td scope="row">
+                        <input
+                            type="number"
+                            name="self_development"
+                            value="<%= session.self_development %>" />
+                    </td>
+                    <td scope="row">
+                        <input
+                            type="number"
+                            name="applying"
+                            value="<%= session.applying %>" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table
+            class="table table-striped table-hover text-center m-11 align-middle"
+            style="width: 80%">
+            <thead>
+                <tr
+                    class="table-dark"
+                    style="width: 70%">
+                    <th scope="col">Bonus</th>
+                    <th scope="col">Sum</th>
+                </tr>
+
+                <tr
+                    class="table-dark"
+                    style="width: 70%"></tr>
+            </thead>
+
+            <tbody>
+                <tr scope="row">
+                    <td scope="row">
+                        <input
+                            type="number"
+                            name="bonus"
+                            value="<%= session.bonus %>" />
+                    </td>
+                    <td scope="row">
+                        <input
+                            type="number"
+                            name="sum"
+                            disabled
+                            value="<%= session.sum %>" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table
+            class="table table-striped table-hover text-center m-11 align-middle"
+            style="width: 80%">
+            <thead>
+                <tr
+                    class="table-dark"
+                    style="width: 70%">
+                    <th scope="col">Notes</th>
+                    <th scope="col">Message</th>
+                </tr>
+
+                <tr
+                    class="table-dark"
+                    style="width: 70%"></tr>
+            </thead>
+
+            <tbody>
+                <tr scope="row">
+                    <td scope="row">
+                        <textarea
+                            name="notes"
+                            id=""
+                            cols="30"
+                            rows="10"
+                            style="resize: none">
+    <%= session.notes %></textarea
+                        >
+                    </td>
+                    <td scope="row">
+                        <textarea
+                            name="message"
+                            id=""
+                            cols="30"
+                            rows="10"
+                            style="resize: none">
+    <%= session.message %></textarea
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button
+            type="submit"
+            class="btn btn-success btn-sm"
+            style="width: 60%">
+            Save
+        </button>
+
+        <a
+            href="/part-session-delete/<%= data.id %>/<%= session._id %>/<%= index  %>"
+            style="width: 60%"
+            class="btn btn-danger btn-sm mt-1"
+            >Delete</a
+        >
+    </form>
+</div>

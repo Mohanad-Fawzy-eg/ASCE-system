@@ -1,0 +1,224 @@
+<%- include('layout/header.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div
+            class="content"
+            style="width: 50% !important">
+            <div
+                class="card"
+                style="max-width: 33%">
+                <div style="padding-top: 3%">
+                    <img
+                        src="/<%=data.image %>"
+                        alt=""
+                        class="img-thumbnail"
+                        style="width: 80%; align-self: center"
+                        width="100" />
+                </div>
+                <h3><%= data.name %></h3>
+                <p class="title"><%= data.title %></p>
+                <p><%= data.id %></p>
+                <p>
+                    warnings : <% var warnings = 0 ;
+                    data.partScore.sessions.forEach(function(session){
+                    if(isNaN(data.partScore.rate)){ data.partScore.warnings = 0
+                    ; } else{ if(data.partScore.rate < 60){ warnings = warnings
+                    + 1; data.partScore.warnings = warnings - 1 } } }) %> <%=
+                    data.partScore.warnings %>
+                </p>
+                <p>
+                    Rate : <% var rate = 0 ; var total = 0; var count = 0 %> <%
+                    data.partScore.sessions.forEach(function(session) { total =
+                    total + session.sum; count = count + 1 })%> <% rate = (total
+                    /(count * 100) )* 100 ; if(isNaN(rate)){ rate = 0 ; } else {
+                    data.partScore.rate = rate } %> <%= rate.toFixed(2) %>%
+                </p>
+                <div
+                    class="d-flex justify-content-center"
+                    style="text-wrap: nowrap; padding-bottom: 3%">
+                    <a
+                        href="/edit-part/<%= data.id  %>"
+                        class="btn btn-warning btn-sm"
+                        style="width: 30%; margin-right: 2.5%"
+                        >Edit</a
+                    >
+
+                    <a
+                        href="/delete-part/<%=data.id%>"
+                        style="width: 30%; margin-right: -2.5%"
+                        class="btn btn-danger btn-sm mr-1"
+                        >Delete</a
+                    >
+                </div>
+            </div>
+            <h1>
+                <a
+                    href="/part-session-add/<%= data.id %>"
+                    type="button"
+                    class="btn btn-primary btn-sm ml-3"
+                    >+ Add session</a
+                >
+                <a
+                    href="/view-part-as/<%= data.id %>"
+                    type="button"
+                    class="btn btn-secondary btn-sm ml-3"
+                    >View</a
+                >
+            </h1>
+
+            <% data.partScore.sessions.forEach((ses , index) => { %>
+
+            <h4>Session <%= index + 1 %></h4>
+
+            <table
+                class="table table-striped table-hover text-center m-11 align-middle"
+                style="width: 80%">
+                <thead>
+                    <tr
+                        class="table-dark"
+                        style="width: 50%">
+                        <th scope="col">Date</th>
+                        <th scope="col">Attended</th>
+                        <th scope="col">Arrival time</th>
+
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row">
+                        <td scope="row"><%= ses.date %></td>
+                        <td scope="row"><%= ses.attendance %></td>
+                        <td scope="row"><%= ses.arrival_time %></td>
+
+                        <td scope="row">
+                            <a
+                                href="/part-session-edit/<%= data.id  %>/<%= ses._id %>/<%= index %>"
+                                class="btn btn-warning btn-sm"
+                                style="width: 60%"
+                                >Edit</a
+                            >
+
+                            <a
+                                href="/part-session-delete/<%= data.id %>/<%= ses._id %>/<%= index  %>"
+                                style="width: 60%"
+                                class="btn btn-danger btn-sm mt-1"
+                                >Delete</a
+                            >
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table
+                class="table table-striped table-hover text-center m-11 align-middle"
+                style="width: 100%">
+                <thead>
+                    <tr
+                        class="table-dark"
+                        style="width: 70%">
+                        <th scope="col">Commitment</th>
+                        <th scope="col">Flexability</th>
+                        <th scope="col">Attitude</th>
+                    </tr>
+
+                    <tr
+                        class="table-dark"
+                        style="width: 70%"></tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row">
+                        <td scope="row"><%= ses.commitment %></td>
+                        <td><%= ses.flex %></td>
+                        <td><%= ses.attitude %></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table
+                class="table table-striped table-hover text-center m-11 align-middle"
+                style="width: 100%">
+                <thead>
+                    <tr
+                        class="table-dark"
+                        style="width: 70%">
+                        <th scope="col">Active</th>
+                        <th scope="col">Self development</th>
+                        <th scope="col">Applying</th>
+                    </tr>
+
+                    <tr
+                        class="table-dark"
+                        style="width: 70%"></tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row">
+                        <td><%= ses.active %></td>
+                        <td scope="row"><%= ses.self_development %></td>
+                        <td scope="row"><%= ses.applying %></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table
+                class="table table-striped table-hover text-center m-11 align-middle"
+                style="width: 100%">
+                <thead>
+                    <tr
+                        class="table-dark"
+                        style="width: 70%">
+                        <th scope="col">Bonus</th>
+                        <th scope="col">Sum</th>
+                    </tr>
+
+                    <tr
+                        class="table-dark"
+                        style="width: 70%"></tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row">
+                        <td scope="row"><%= ses.bonus %></td>
+                        <td scope="row"><%= ses.sum %> / 100</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table
+                class="table table-striped table-hover text-center m-11 align-middle"
+                style="width: 100%">
+                <thead>
+                    <tr
+                        class="table-dark"
+                        style="width: 70%">
+                        <th scope="col">Notes</th>
+                        <th scope="col">Message</th>
+                    </tr>
+
+                    <tr
+                        class="table-dark"
+                        style="width: 70%"></tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row">
+                        <td scope="row"><%= ses.notes %></td>
+                        <td scope="row"><%= ses.message %></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <% }) %>
+        </div>
+    </body>
+</html>

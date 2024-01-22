@@ -1,0 +1,85 @@
+<%- include('layout/header.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div class="content mx-5">
+            <h1>Edit <%= data.name %></h1>
+
+            <form
+                action="/edit-part/<%= data.id  %>"
+                method="post"
+                id="add-form"
+                class="form-group row"
+                enctype="multipart/form-data">
+                <div class="col-sm-10 pt-5">
+                    <input
+                        type="text"
+                        class="form-control"
+                        style="width: 50%"
+                        required
+                        name="name"
+                        placeholder="Name"
+                        value="<%= data.name  %>" />
+                </div>
+                <div class="col-sm-10 pt-5">
+                    <input
+                        class="form-control"
+                        style="width: 50%"
+                        type="phone"
+                        name="phone"
+                        placeholder="Phone"
+                        value="<%= data.phone  %>" />
+                </div>
+
+                <div class="col-sm-10 pt-5">
+                    <h6>Change team</h6>
+                    <input
+                        class="form-control"
+                        style="width: 50%"
+                        type="number"
+                        name="team"
+                        placeholder="Phone"
+                        value="<%= data.team  %>" />
+                </div>
+
+                <div class="col-sm-10 pt-2">
+                    <!-- <h6>Keep old image ?</h6>
+                    <select
+                        required
+                        name="keepImage"
+                        id="">
+                        <option value="">---</option>
+                        <option value="keep">Keep</option>
+                        <option value="delete">Delete</option>
+                        <option value="change">Change</option>
+                    </select> -->
+
+                    <h6>Upload image (optional)</h6>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        style="width: 25%"
+                        class="form-control"
+                        value="" />
+                </div>
+
+                <div class="col-sm-10 pt-2">
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        style="width: 10%">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
