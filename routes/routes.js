@@ -499,7 +499,7 @@ function makeUniqueStaffId(committee) {
             prCS = prCS + 1;
 
             break;
-        case "Organization":
+        case "Organizing":
             id = `02-${ocCS}-04`;
             ocCS = ocCS + 1;
 
