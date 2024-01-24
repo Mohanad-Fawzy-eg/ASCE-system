@@ -32,10 +32,10 @@ var upload = multer({ storage: Storage }).single("image");
 //^ Add new board =============================================================
 
 let hbC = 909,
-    mtC = 707,
-    mmC = 505,
-    hrC = 603,
-    prC = 450,
+    mtC = 757,
+    mmC = 530,
+    hrC = 630,
+    prC = 470,
     ocC = 101;
 
 function makeBoardUniqueID(committee, rank) {
@@ -78,7 +78,7 @@ function makeBoardUniqueID(committee, rank) {
                 prC = prC + 5;
             }
             break;
-        case "Organization":
+        case "Organizing":
             if (rank == "Head") {
                 id = `01-${ocC}-04`;
                 ocC = ocC + 20;
@@ -469,11 +469,11 @@ router.get("/board-session-delete/:id/:_id/:index", (req, res) => {
 
 //* Add staff =================================================================
 
-let mtCS = 700,
-    mmCS = 500,
-    hrCS = 600,
-    prCS = 400,
-    ocCS = 100;
+let mtCS = 715,
+    mmCS = 508,
+    hrCS = 617,
+    prCS = 406,
+    ocCS = 111;
 
 function makeUniqueStaffId(committee) {
     let id;
