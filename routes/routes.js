@@ -56,7 +56,7 @@ function makeBoardUniqueID(committee, rank) {
                 id = `01-${mmC}-02`;
                 mmC = mmC + 10;
             } else {
-                id = `01 - ${mmC} -02`;
+                id = `01-${mmC}-02`;
                 mmC = mmC + 10;
             }
             break;
@@ -469,9 +469,9 @@ router.get("/board-session-delete/:id/:_id/:index", (req, res) => {
 
 //* Add staff =================================================================
 
-let mtCS = 715,
+let mtCS = 724,
     mmCS = 508,
-    hrCS = 617,
+    hrCS = 618,
     prCS = 406,
     ocCS = 111;
 
