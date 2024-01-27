@@ -469,8 +469,8 @@ router.get("/board-session-delete/:id/:_id/:index", (req, res) => {
 
 //* Add staff =================================================================
 
-let mtCS = 724,
-    mmCS = 508,
+let mtCS = 732,
+    mmCS = 514,
     hrCS = 618,
     prCS = 406,
     ocCS = 111;
