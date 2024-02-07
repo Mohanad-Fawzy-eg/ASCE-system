@@ -406,7 +406,7 @@ router.post("/board-session-edit/:id/:_id/:index", (req, res) => {
         sum += parseInt(clamp(req.body.team_follow_up, 0, 10)) * 1.5;
         sum += parseInt(clamp(req.body.staff_development, 0, 10)) * 1.5;
         sum += parseInt(clamp(req.body.attitude, 0, 10));
-        sum += parseInt(clamp(req.body.bonus, 0, 10));
+        sum += parseInt(clamp(req.body.bonus, -10, 10));
 
         var session = {
             attendance: req.body.attendance,
@@ -814,7 +814,7 @@ router.post("/staff-session-edit/:id/:_id/:index", (req, res) => {
         sum += parseInt(clamp(req.body.self_development, 0, 10)) * 2;
         sum += parseInt(clamp(req.body.active, 0, 10));
         sum += parseInt(clamp(req.body.applying, 0, 10)) * 1.5;
-        sum += parseInt(clamp(req.body.bonus, 0, 10));
+        sum += parseInt(clamp(req.body.bonus, -10, 10));
 
         var session = {
             attendance: req.body.attendance,
@@ -947,8 +947,8 @@ router.get("/part-profile-mode", (req, res) => {
         });
 });
 
-router.get("/view-part/:id", (req, res) => {
-    Person.find({ id: req.params.id })
+router.get("/view-part/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
         .then((result) => {
             res.status(200);
             res.render("view-part", {
@@ -962,8 +962,8 @@ router.get("/view-part/:id", (req, res) => {
         });
 });
 
-router.get("/view-part-as/:id", (req, res) => {
-    Person.find({ id: req.params.id })
+router.get("/view-part-as/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
         .then((result) => {
             res.status(200);
             res.render("view-part-as", {
@@ -981,8 +981,8 @@ router.get("/view-part-as/:id", (req, res) => {
 
 //^ Delete participant ========================================================
 
-router.get("/delete-part/:id", (req, res) => {
-    Person.findOneAndDelete({ id: req.params.id }).then((result) => {
+router.get("/delete-part/:_id", (req, res) => {
+    Person.findOneAndDelete({ _id: req.params._id }).then((result) => {
         if (result.image != "default.png") {
             try {
                 fs.unlinkSync(`./uploads/${result.image}`);
@@ -1002,8 +1002,8 @@ router.get("/delete-part/:id", (req, res) => {
 
 //? Edit participant ==========================================================
 
-router.get("/edit-part/:id", (req, res) => {
-    Person.find({ id: req.params.id })
+router.get("/edit-part/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
         .then((result) => {
             res.status(200);
             res.render("edit-part", {
@@ -1017,7 +1017,7 @@ router.get("/edit-part/:id", (req, res) => {
         });
 });
 
-router.post("/edit-part/:id", upload, (req, res) => {
+router.post("/edit-part/:_id", upload, (req, res) => {
     var img;
 
     // Person.findOne({ id: req.params.id }).then((result) => {
@@ -1069,7 +1069,7 @@ router.post("/edit-part/:id", upload, (req, res) => {
         team: req.body.team,
         image: img,
     };
-    Person.updateOne({ id: req.params.id }, part).then((result) => {
+    Person.updateOne({ _id: req.params._id }, part).then((result) => {
         req.session.message = {
             type: "success",
             message: "Participant edited successfully",
@@ -1082,8 +1082,8 @@ router.post("/edit-part/:id", upload, (req, res) => {
 
 //* Add session to participant ================================================
 
-router.get("/part-session-add/:id", (req, res) => {
-    Person.findOne({ id: req.params.id })
+router.get("/part-session-add/:_id", (req, res) => {
+    Person.findOne({ _id: req.params._id })
         .then((result) => {
             res.status(200);
             var session = {
@@ -1105,7 +1105,7 @@ router.get("/part-session-add/:id", (req, res) => {
 
             result.save();
 
-            Person.updateOne({ id: req.params.id }, result);
+            Person.updateOne({ _id: req.params._id }, result);
 
             res.render("view-part", {
                 title: `ASCE - Participant - ${result.name}`,
@@ -1123,12 +1123,12 @@ router.get("/part-session-add/:id", (req, res) => {
 //? Delete session from participant ==========================================
 
 router.get("/part-session-delete/:id/:_id/:index", (req, res) => {
-    Person.findOne({ id: req.params.id }).then((result) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
         result.partScore.sessions.splice(req.params.index, 1);
 
         result.save();
 
-        Person.updateOne({ id: req.params.id }, result);
+        Person.updateOne({ _id: req.params._id }, result);
 
         res.render("view-part", {
             title: `ASCE - Participant - ${result.name}`,
@@ -1142,7 +1142,7 @@ router.get("/part-session-delete/:id/:_id/:index", (req, res) => {
 //& Edit session of participant =====================================================
 
 router.get("/part-session-edit/:id/:_id/:index", (req, res) => {
-    Person.findOne({ id: req.params.id }).then((result) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
         res.status(200);
         res.render("session-part", {
             title: `ASCE - Participant - ${result.name}`,
@@ -1154,7 +1154,7 @@ router.get("/part-session-edit/:id/:_id/:index", (req, res) => {
 });
 
 router.post("/part-session-edit/:id/:_id/:index", (req, res) => {
-    Person.findOne({ id: req.params.id }).then((result) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
         // console.log(result.boardScore.sessions[req.params.index]);
         var sum = 0;
         sum += parseInt(clamp(req.body.commitment, 0, 10)) * 2;
@@ -1163,7 +1163,7 @@ router.post("/part-session-edit/:id/:_id/:index", (req, res) => {
         sum += parseInt(clamp(req.body.self_development, 0, 10)) * 2;
         sum += parseInt(clamp(req.body.active, 0, 10)) * 1.5;
         sum += parseInt(clamp(req.body.applying, 0, 10)) * 2;
-        sum += parseInt(clamp(req.body.bonus, 0, 10));
+        sum += parseInt(clamp(req.body.bonus, -10, 10));
 
         var session = {
             attendance: req.body.attendance,
@@ -1235,9 +1235,9 @@ router.get("/part-add", (req, res) => {
     res.render("part-add", { title: "ASCE - Add participant" });
 });
 
-router.get("*", (req, res) => {
-    res.render("err", { title: "ASCE - Error" });
-});
+// router.get("*", (req, res) => {
+//     res.render("err", { title: "ASCE - Error" });
+// });
 
 //! ==========================================================================
 
