@@ -69,14 +69,7 @@
                 <h3><%= data.name %></h3>
                 <p class="title"><%= data.title %></p>
                 <p><%= data.id %></p>
-                <p>
-                    warnings : <% var warnings = 0 ;
-                    data.boardScore.sessions.forEach(function(session){
-                    if(isNaN(data.boardScore.rate)){ data.boardScore.warnings =
-                    0 ; } else{ if(data.boardScore.rate < 60){ warnings =
-                    warnings + 1; data.boardScore.warnings = warnings - 1 } } })
-                    %> <%= data.boardScore.warnings %>
-                </p>
+                <p>warnings : <%= data.boardScore.warnings %></p>
                 <p>
                     Rate : <% var rate = 0 ; var total = 0; var count = 0 %> <%
                     data.boardScore.sessions.forEach(function(session) { total =

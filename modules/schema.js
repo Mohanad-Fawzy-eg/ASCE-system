@@ -132,7 +132,7 @@ const generalShcema = new mongoose.Schema({
     role: { type: String },
     rank: { type: String },
     committee: { type: String },
-    team: { type: Number },
+    team: { type: String },
     title: { type: String },
     image: { type: String, default: "/uploads/default.jpg" },
     boardScore: { type: boardScore },

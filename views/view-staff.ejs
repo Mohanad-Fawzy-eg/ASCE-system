@@ -26,14 +26,7 @@
                 <h3><%= data.name %></h3>
                 <p class="title"><%= data.title %></p>
                 <p><%= data.id %></p>
-                <p>
-                    warnings : <% var warnings = 0 ;
-                    data.staffScore.sessions.forEach(function(session){
-                    if(isNaN(data.staffScore.rate)){ data.staffScore.warnings =
-                    0 ; } else{ if(data.staffScore.rate < 60){ warnings =
-                    warnings + 1; data.staffScore.warnings = warnings - 1 } } })
-                    %> <%= data.staffScore.warnings %>
-                </p>
+                <p>warnings : <%= data.staffScore.warnings %></p>
                 <p>
                     Rate : <% var rate = 0 ; var total = 0; var count = 0 %> <%
                     data.staffScore.sessions.forEach(function(session) { total =
@@ -59,7 +52,21 @@
                     >
                 </div>
             </div>
-            <h1>
+            <h1 style="margin-left: 1em">
+                <a
+                    href="/staff-add-warrning/<%= data._id %>"
+                    type="button"
+                    class="btn btn-warning btn-sm ml-3"
+                    >+ Warning
+                </a>
+                <a
+                    href="/staff-rem-warrning/<%= data._id %>"
+                    type="button"
+                    class="btn btn-primary btn-sm ml-3"
+                    >- Warning
+                </a>
+            </h1>
+            <h1 style="margin-left: 1em">
                 <a
                     href="/staff-session-add/<%= data.id %>"
                     type="button"

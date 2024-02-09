@@ -340,6 +340,46 @@ router.get("/delete-board/:id", (req, res) => {
 
 //^============================================================================
 
+//! warn board ================================================================
+
+router.get("/board-add-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.boardScore.warnings = result.boardScore.warnings + 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-board", {
+                title: `ASCE - Board - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+router.get("/board-rem-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.boardScore.warnings = result.boardScore.warnings - 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-board", {
+                title: `ASCE - Board - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+//! ===========================================================================
+
 //? Add session to the board ==================================================
 
 router.get("/board-session-add/:id", (req, res) => {
@@ -729,6 +769,46 @@ router.post("/edit-staff/:id", upload, (req, res) => {
 
 //~ ===========================================================================
 
+//^ warn staff ================================================================
+
+router.get("/staff-add-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.staffScore.warnings = result.staffScore.warnings + 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-staff", {
+                title: `ASCE - staff - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+router.get("/staff-rem-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.staffScore.warnings = result.staffScore.warnings - 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-staff", {
+                title: `ASCE - Staff - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+//^ ===========================================================================
+
 //* Add session to staff ======================================================
 
 router.get("/staff-session-add/:id", (req, res) => {
@@ -1079,6 +1159,46 @@ router.post("/edit-part/:_id", upload, (req, res) => {
 });
 
 //? ===========================================================================
+
+//^ Warn participant ==========================================================
+
+router.get("/part-add-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.partScore.warnings = result.partScore.warnings + 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-part", {
+                title: `ASCE - Participant - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+router.get("/part-rem-warrning/:id", (req, res) => {
+    Person.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.status(200);
+            result.partScore.warnings = result.partScore.warnings - 1;
+            result.save();
+            Person.updateOne({ _id: req.params.id }, result);
+            res.render("view-part", {
+                title: `ASCE - Participant - ${result.name}`,
+                data: result,
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+//^ ===========================================================================
 
 //* Add session to participant ================================================
 
