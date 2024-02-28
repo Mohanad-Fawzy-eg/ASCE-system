@@ -56,7 +56,6 @@
                             <th scope="col">Name</th>
                             <th scope="col">Team</th>
                             <th scope="col">Warnings</th>
-                            <th scope="col">Rate</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -64,11 +63,12 @@
                     <tbody>
                         <% data.forEach((row , index) => { %>
                         <tr scope="row">
-                            <td><%= row.id %></td>
+                            <td style="word-wrap: break-word !important">
+                                <%= row.id %>
+                            </td>
                             <td><%= row.name %></td>
                             <td><%= row.team %></td>
                             <td scope="row"><%= row.partScore.warnings %></td>
-                            <td scope="row"><%= row.partScore.rate %></td>
                             <td scope="row">
                                 <div class="d-flex flex-column">
                                     <a

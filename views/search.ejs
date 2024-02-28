@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+
+        <link
+            rel="stylesheet"
+            href="/stylesheet/nav.css" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+            integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"
+            integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com" />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Sofia&display=swap"
+            rel="stylesheet" />
+
+        <link
+            href="https://fonts.cdnfonts.com/css/built-titling"
+            rel="stylesheet" />
+
+        <style>
+            .search {
+                margin-top: 10%;
+                display: grid;
+                justify-content: center !important;
+                align-items: center !important;
+                font-size: 1.5em !important;
+                text-align: center;
+                font-weight: bold !important;
+            }
+
+            .search input {
+                width: 15em !important;
+            }
+            .search a {
+                justify-self: center;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="search">
+            <form
+                action="/search/<%= data.id %>"
+                method="post"
+                class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label class="sr-only">Enter your id</label>
+                    <h6 style="color: red; font-weight: bold !important">
+                        <%= error %>
+                    </h6>
+                    <input
+                        required
+                        type="text"
+                        name="myID"
+                        class="form-control"
+                        placeholder="i.e. 03-1705-A1" />
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary mb-2">
+                    Search
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

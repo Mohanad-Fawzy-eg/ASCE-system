@@ -4,15 +4,9 @@ const router = express.Router();
 
 const Person = require("../modules/schema");
 
-const role = { enum: ["Board", "Staff", "Participant"] };
-
 const multer = require("multer");
 
 const fs = require("fs");
-
-const path = require("path");
-
-const ObjectID = require("mongodb").ObjectID;
 
 //? Images upload =============================================================
 
@@ -1042,8 +1036,8 @@ router.get("/view-part/:_id", (req, res) => {
         });
 });
 
-router.get("/view-part-as/:_id", (req, res) => {
-    Person.find({ _id: req.params._id })
+router.get("/view-part-as/:id", (req, res) => {
+    Person.find({ id: req.params.id })
         .then((result) => {
             res.status(200);
             res.render("view-part-as", {
@@ -1144,6 +1138,7 @@ router.post("/edit-part/:_id", upload, (req, res) => {
     });
 
     var part = {
+        id: req.body.id,
         name: req.body.name,
         phone: req.body.phone,
         team: req.body.team,
@@ -1202,6 +1197,21 @@ router.get("/part-rem-warrning/:id", (req, res) => {
 
 //* Add session to participant ================================================
 
+router.get("/show-mod1-ses/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
+        .then((result) => {
+            res.status(200);
+            res.render("view-part-mod-1", {
+                title: `ASCE - Participant - ${result[0].name}`,
+                data: result[0],
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
 router.get("/part-session-add/:_id", (req, res) => {
     Person.findOne({ _id: req.params._id })
         .then((result) => {
@@ -1227,7 +1237,7 @@ router.get("/part-session-add/:_id", (req, res) => {
 
             Person.updateOne({ _id: req.params._id }, result);
 
-            res.render("view-part", {
+            res.render("view-part-mod-1", {
                 title: `ASCE - Participant - ${result.name}`,
                 data: result,
             });
@@ -1250,7 +1260,7 @@ router.get("/part-session-delete/:id/:_id/:index", (req, res) => {
 
         Person.updateOne({ _id: req.params._id }, result);
 
-        res.render("view-part", {
+        res.render("view-part-mod-1", {
             title: `ASCE - Participant - ${result.name}`,
             data: result,
         });
@@ -1308,7 +1318,7 @@ router.post("/part-session-edit/:id/:_id/:index", (req, res) => {
 
             Person.updateOne({ id: req.params.id }, result);
 
-            res.render("view-part", {
+            res.render("view-part-mod-1", {
                 title: `ASCE - Participant. - ${result.name}`,
                 data: result,
             });
@@ -1320,6 +1330,323 @@ router.post("/part-session-edit/:id/:_id/:index", (req, res) => {
 });
 
 //& ===========================================================================
+
+//& mod 2 =====================================================================
+
+router.get("/show-mod2-ses/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
+        .then((result) => {
+            res.status(200);
+            res.render("view-part-mod-2", {
+                title: `ASCE - Participant - ${result[0].name}`,
+                data: result[0],
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+router.get("/part-session-add-mod2/:_id", (req, res) => {
+    Person.findOne({ _id: req.params._id }).then((result) => {
+        res.status(200);
+        var session = {
+            attendance: 0,
+            arrival_time: "10:00",
+            date: "3/2/2024",
+            commitment: 0,
+            flex: 0,
+            attitude: 0,
+            active: 0,
+            self_development: 0,
+            applying: 0,
+            bonus: 0,
+            sum: 0,
+            notes: "",
+            message: "",
+        };
+        result.partScore.mod2.push(session);
+
+        result.save();
+
+        Person.updateOne({ _id: req.params._id }, result);
+
+        res.render("view-part-mod-2", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+        });
+    });
+});
+
+router.get("/part-session-delete-mod2/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        result.partScore.mod2.splice(req.params.index, 1);
+
+        result.save();
+
+        Person.updateOne({ _id: req.params._id }, result);
+
+        res.render("view-part-mod-2", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+        });
+    });
+});
+
+router.get("/part-session-edit-mod2/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        res.status(200);
+        res.render("session-part-mod2", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+            session: result.partScore.mod2[req.params.index],
+            index: req.params.index,
+        });
+    });
+});
+
+router.post("/part-session-edit-mod2/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        // console.log(result.boardScore.sessions[req.params.index]);
+        var sum = 0;
+        sum += parseInt(clamp(req.body.commitment, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.flex, 0, 10));
+        sum += parseInt(clamp(req.body.attitude, 0, 10)) * 1.5;
+        sum += parseInt(clamp(req.body.self_development, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.active, 0, 10)) * 1.5;
+        sum += parseInt(clamp(req.body.applying, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.bonus, -10, 10));
+
+        var session = {
+            attendance: req.body.attendance,
+            arrival_time: req.body.arrival_time,
+            date: req.body.date,
+            commitment: clamp(req.body.commitment, 0, 10),
+            flex: clamp(req.body.flex, 0, 10),
+            attitude: clamp(req.body.attitude, 0, 10),
+            self_development: clamp(req.body.self_development, 0, 10),
+            active: clamp(req.body.active, 0, 10),
+            applying: clamp(req.body.applying, 0, 10),
+            bonus: clamp(req.body.bonus, -10, 10),
+            sum: sum,
+            notes: req.body.notes,
+            message: req.body.message,
+        };
+
+        try {
+            result.partScore.mod2[req.params.index] = session;
+
+            result.save();
+
+            Person.updateOne({ id: req.params.id }, result);
+
+            res.render("view-part-mod-2", {
+                title: `ASCE - Participant. - ${result.name}`,
+                data: result,
+            });
+        } catch (err) {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        }
+    });
+});
+
+//& ===========================================================================
+
+//& mod 3 =====================================================================
+
+router.get("/show-mod3-ses/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
+        .then((result) => {
+            res.status(200);
+            res.render("view-part-mod-3", {
+                title: `ASCE - Participant - ${result[0].name}`,
+                data: result[0],
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+router.get("/part-session-add-mod3/:_id", (req, res) => {
+    Person.findOne({ _id: req.params._id }).then((result) => {
+        res.status(200);
+        var session = {
+            attendance: 0,
+            arrival_time: "10:00",
+            date: "3/2/2024",
+            commitment: 0,
+            flex: 0,
+            attitude: 0,
+            active: 0,
+            self_development: 0,
+            applying: 0,
+            bonus: 0,
+            sum: 0,
+            notes: "",
+            message: "",
+        };
+        result.partScore.mod3.push(session);
+
+        result.save();
+
+        Person.updateOne({ _id: req.params._id }, result);
+
+        res.render("view-part-mod-3", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+        });
+    });
+});
+
+router.get("/part-session-delete-mod3/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        result.partScore.mod3.splice(req.params.index, 1);
+
+        result.save();
+
+        Person.updateOne({ _id: req.params._id }, result);
+
+        res.render("view-part-mod-3", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+        });
+    });
+});
+
+router.get("/part-session-edit-mod3/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        res.status(200);
+        res.render("session-part-mod3", {
+            title: `ASCE - Participant - ${result.name}`,
+            data: result,
+            session: result.partScore.mod3[req.params.index],
+            index: req.params.index,
+        });
+    });
+});
+
+router.post("/part-session-edit-mod3/:id/:_id/:index", (req, res) => {
+    Person.findOne({ _id: req.params.id }).then((result) => {
+        // console.log(result.boardScore.sessions[req.params.index]);
+        var sum = 0;
+        sum += parseInt(clamp(req.body.commitment, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.flex, 0, 10));
+        sum += parseInt(clamp(req.body.attitude, 0, 10)) * 1.5;
+        sum += parseInt(clamp(req.body.self_development, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.active, 0, 10)) * 1.5;
+        sum += parseInt(clamp(req.body.applying, 0, 10)) * 2;
+        sum += parseInt(clamp(req.body.bonus, -10, 10));
+
+        var session = {
+            attendance: req.body.attendance,
+            arrival_time: req.body.arrival_time,
+            date: req.body.date,
+            commitment: clamp(req.body.commitment, 0, 10),
+            flex: clamp(req.body.flex, 0, 10),
+            attitude: clamp(req.body.attitude, 0, 10),
+            self_development: clamp(req.body.self_development, 0, 10),
+            active: clamp(req.body.active, 0, 10),
+            applying: clamp(req.body.applying, 0, 10),
+            bonus: clamp(req.body.bonus, -10, 10),
+            sum: sum,
+            notes: req.body.notes,
+            message: req.body.message,
+        };
+
+        try {
+            result.partScore.mod3[req.params.index] = session;
+
+            result.save();
+
+            Person.updateOne({ id: req.params.id }, result);
+
+            res.render("view-part-mod-3", {
+                title: `ASCE - Participant. - ${result.name}`,
+                data: result,
+            });
+        } catch (err) {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        }
+    });
+});
+
+//& ===========================================================================
+
+//* ALL SESSIONS ==============================================================
+
+router.get("/show-all-ses/:_id", (req, res) => {
+    Person.find({ _id: req.params._id })
+        .then((result) => {
+            res.status(200);
+            res.render("session-part-all", {
+                title: `ASCE - Participant - ${result[0].name}`,
+                data: result[0],
+            });
+        })
+        .catch((err) => {
+            res.render("err", { title: "ASCE - Error" });
+            console.log("ERRRRRRRRRRRRRRRRRORRRRRRRRRRR" + err);
+        });
+});
+
+//* ===========================================================================
+
+//? Search ====================================================================
+
+router.get("/search", (req, res) => {
+    Person.find().then((result) => {
+        res.render("search", {
+            title: "ASCE - Search",
+            data: result,
+            error: " ",
+        });
+    });
+});
+
+router.post("/search", (req, res) => {
+    Person.findOne({ id: req.body.myID })
+        .then((result) => {
+            switch (result.role) {
+                case "Board":
+                    res.render("view-board-as", {
+                        title: `ASCE - Board - ${result.name}`,
+                        data: result,
+                    });
+                    break;
+                case "Staff":
+                    res.render("view-staff-as", {
+                        title: `ASCE - Staff - ${result.name}`,
+                        data: result,
+                    });
+                    break;
+                case "Part":
+                    res.render("view-part-as", {
+                        title: `ASCE - Participant - ${result.name}`,
+                        data: result,
+                    });
+                    break;
+                default:
+                    res.render("err", { title: "ASCE - Error" });
+
+                    break;
+            }
+        })
+        .catch((err) => {
+            Person.find().then((result) => {
+                res.render("search", {
+                    title: "ASCE - Search",
+                    data: result,
+                    error: "Invalid ID",
+                });
+            });
+        });
+});
+//? ===========================================================================
 
 //! Basic router ==============================================================
 

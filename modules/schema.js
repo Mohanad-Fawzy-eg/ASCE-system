@@ -102,6 +102,7 @@ const staffScore = new mongoose.Schema({
 //! Participants ==========
 
 const partSession = new mongoose.Schema({
+    type: { type: String },
     attendance: { type: Boolean, default: 0 },
     arrival_time: { type: String, default: "10:00 am" },
     date: { type: String, default: "3/2/2024" },
@@ -119,8 +120,12 @@ const partSession = new mongoose.Schema({
 
 const partScore = new mongoose.Schema({
     sessions: [partSession],
+    mod2: [partSession],
+    mod3: [partSession],
     warnings: { type: Number, default: 0 },
     rate: { type: Number, default: 0 },
+    rate2: { type: Number, default: 0 },
+    rate3: { type: Number, default: 0 },
 });
 
 //! =======================
