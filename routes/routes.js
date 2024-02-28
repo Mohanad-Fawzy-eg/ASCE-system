@@ -503,7 +503,7 @@ router.get("/board-session-delete/:id/:_id/:index", (req, res) => {
 
 //* Add staff =================================================================
 
-let mtCS = 734,
+let mtCS = 736,
     mmCS = 514,
     hrCS = 621,
     prCS = 406,
@@ -931,7 +931,7 @@ router.post("/staff-session-edit/:id/:_id/:index", (req, res) => {
 
 //? Add participant ===========================================================
 
-let ptC = 1700;
+let ptC = 1850;
 
 function makeUniquePartID(team) {
     let id;
